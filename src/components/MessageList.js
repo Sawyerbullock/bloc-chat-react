@@ -24,10 +24,10 @@ class MessageList extends Component {
       <section className="message-list">
         <h3>{this.props.activeRoomName}</h3>
         {this.state.messages.map( (message, index) =>
-          <div key={index}>
-            <div>{this.props.activeRoomId === message.roomId ? message.username : null}</div>
-            <div>{this.props.activeRoomId === message.roomId ? message.content : null}</div>
-            <div>{this.props.activeRoomId === message.roomId ? message.sentAt : null}</div>
+          <div className="row" key={index}>
+            <div className="col-md-12">{this.props.activeRoomId === message.roomId ? message.username : null}</div>
+            <div className="col-md-6">{this.props.activeRoomId === message.roomId ? message.content : null}</div>
+            <div className="col-md-6">{this.props.activeRoomId === message.roomId ? message.sentAt : null}</div>
           </div>
         )}
       </section>

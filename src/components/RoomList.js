@@ -37,20 +37,22 @@ class RoomList extends Component {
 
   render() {
     return (
-      <section className="col-md-3 text-left text-white bg-primary roomlist">
-        <nav className="">
-          <div className="">
+      <section className="">
+        <nav className="navbar-left">
+          <div className="nav-title">
             <h3>Bloc Chat</h3>
           </div>
-          <ul className="">
+          <ul className="nav flex-column">
             {this.state.rooms.map( (room) =>
-            <li key={room.key} onClick={() => this.props.changeRoom(room)} ><a href="#" className="text-white">{room.name}</a></li>
+            <li key={room.key} className="nav-item" onClick={() => this.props.changeRoom(room)} ><a href="#" className="text-dark">{room.name}</a></li>
           )}
           </ul>
           <form onSubmit={this.createRoom} className="">
             <fieldset>
-              <label>New Room:</label>
-              <input type="text" id="new-room" value={this.state.inputValue} onChange={this.handleChange} />
+              <div className="row">
+              <label className="mx-auto">New Room:</label>
+              </div>
+              <input className="row w-75 mx-auto" type="text" id="new-room" value={this.state.inputValue} onChange={this.handleChange} />
               <input type="submit" value="Submit"/>
             </fieldset>
           </form>

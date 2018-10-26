@@ -34,8 +34,8 @@ class App extends Component {
   render() {
     return (
       <div className="App row">
-      <RoomList className="col-md-3" firebase={firebase} changeRoom={(room) => this.changeRoom(room)} />
-      <MessageList className="col-md-9" firebase={firebase} activeRoomName={this.state.activeRoomName} activeRoomId={this.state.activeRoomId} />
+      <RoomList firebase={firebase} changeRoom={(room) => this.changeRoom(room)} />
+      <MessageList firebase={firebase} activeRoomName={this.state.activeRoomName} activeRoomId={this.state.activeRoomId} />
       </div>
     );
   }

@@ -8,6 +8,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.navbar-left {
+  background-color: #91d3ff;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+}
+
+.message-list {
+  height: 100vh;
+  width: 82%;
+  right: 0;
+  position:absolute;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
