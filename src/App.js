@@ -19,19 +19,23 @@ class App extends Component {
     super(props);
 
     this.state = {
-      activeRoom: 'hello',
+      activeRoomName: '',
+      activeRoomId: '',
     }
   }
 
   changeRoom(room) {
-    console.log(room.key)
+    this.setState({
+      activeRoomName: room.name,
+      activeRoomId: room.key,
+    })
   }
 
   render() {
     return (
-      <div className="App">
-      <RoomList firebase={firebase} changeRoom={(room) => this.changeRoom(room)} />
-      <MessageList firebase={firebase} />
+      <div className="App row">
+      <RoomList className="col-md-3" firebase={firebase} changeRoom={(room) => this.changeRoom(room)} />
+      <MessageList className="col-md-9" firebase={firebase} activeRoomName={this.state.activeRoomName} activeRoomId={this.state.activeRoomId} />
       </div>
     );
   }
