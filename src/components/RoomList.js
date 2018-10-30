@@ -40,7 +40,7 @@ class RoomList extends Component {
       <section className="">
         <nav className="navbar-left">
           <div className="nav-title">
-            <h3>Bloc Chat</h3>
+            <h3>Chat Rooms</h3>
           </div>
           <ul className="nav flex-column">
             {this.state.rooms.map( (room) =>
@@ -53,7 +53,7 @@ class RoomList extends Component {
               <label className="mx-auto">New Room:</label>
               </div>
               <input className="row w-75 mx-auto" type="text" id="new-room" value={this.state.inputValue} onChange={this.handleChange} />
-              <input type="submit" value="Submit"/>
+              <input type="submit" value="Submit" className="mt-1"/>
             </fieldset>
           </form>
         </nav>

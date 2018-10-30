@@ -3,6 +3,7 @@ import './App.css';
 import * as firebase from 'firebase';
 import RoomList from './components/RoomList.js'
 import MessageList from './components/MessageList.js'
+import User from './components/User.js'
 
 var config = {
     apiKey: "AIzaSyCr4uiRsm_yxjjZKEPMpLPtrWfol7XxYSA",
@@ -10,7 +11,8 @@ var config = {
     databaseURL: "https://bloc-chat-react-ec7ef.firebaseio.com",
     projectId: "bloc-chat-react-ec7ef",
     storageBucket: "bloc-chat-react-ec7ef.appspot.com",
-    messagingSenderId: "903356052615"
+    messagingSenderId: "903356052615",
+    user: "",
   };
   firebase.initializeApp(config);
 
@@ -24,6 +26,12 @@ class App extends Component {
     }
   }
 
+  setUser(user) {
+    this.setState({
+      user: user,
+    })
+  }
+
   changeRoom(room) {
     this.setState({
       activeRoomName: room.name,
@@ -33,7 +41,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App row">
+      <div className="App">
+      <User firebase={firebase} setUser={(user) => this.setUser(user)} user={this.state.user} />
       <RoomList firebase={firebase} changeRoom={(room) => this.changeRoom(room)} />
       <MessageList firebase={firebase} activeRoomName={this.state.activeRoomName} activeRoomId={this.state.activeRoomId} />
       </div>
