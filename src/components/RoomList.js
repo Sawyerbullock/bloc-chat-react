@@ -7,10 +7,12 @@ class RoomList extends Component {
     this.state = {
       rooms: [],
       inputValue: '',
+
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.createRoom = this.createRoom.bind(this);
+    this.deleteRoom = this.deleteRoom.bind(this);
 
     this.roomsRef = this.props.firebase.database().ref('rooms');
   }
@@ -21,6 +23,13 @@ class RoomList extends Component {
       room.key = snapshot.key;
       this.setState({ rooms: this.state.rooms.concat( room ) });
     });
+    this.roomsRef.on('child_removed', snapshot => {
+      const deletedRoom = snapshot.val()
+      deletedRoom.key = snapshot.key;
+      this.setState({
+        rooms: this.state.rooms.filter( room => room.key != deletedRoom.key )
+      })
+    })
   }
 
   handleChange(event) {
@@ -35,6 +44,10 @@ class RoomList extends Component {
     this.setState({ inputValue: '' })
   }
 
+  deleteRoom(room) {
+    this.roomsRef.child(room.key).remove();
+  }
+
   render() {
     return (
       <section className="">
@@ -43,8 +56,8 @@ class RoomList extends Component {
             <h3>Chat Rooms</h3>
           </div>
           <ul className="nav flex-column">
-            {this.state.rooms.map( (room) =>
-            <li key={room.key} className="nav-item" onClick={() => this.props.changeRoom(room)} ><a href="#" className="text-dark">{room.name}</a></li>
+            {this.state.rooms.map( (room, index) =>
+            <li key={room.key} className="nav-item" onClick={() => this.props.changeRoom(room)} ><a href="#" className="text-dark">{room.name}</a><span className="ion-md-trash ml-1" onClick={() => this.deleteRoom(room)} ></span></li>
           )}
           </ul>
           <form onSubmit={this.createRoom} className="">

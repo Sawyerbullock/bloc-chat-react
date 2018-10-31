@@ -32,14 +32,16 @@ class MessageList extends Component {
   sendMessage() {
     var today = new Date();
     var hour = today.getHours();
+    var abbreviation = (hour > 12)? " pm" : " am";
     hour = (hour > 12)? hour - 12 : hour;
     var minutes = today.getMinutes();
     minutes = "0000" + minutes;
+    var time =
     this.messagesRef.push({
       username: this.props.user.displayName,
       content: this.state.inputValue,
       roomId: this.props.activeRoomId,
-      sentAt: hour + ":" + minutes.slice(-2),
+      sentAt: hour + ":" + minutes.slice(-2) + abbreviation
     })
     this.setState({ inputValue: '', })
   }
@@ -50,9 +52,9 @@ class MessageList extends Component {
         <h3>{this.props.activeRoomName}</h3>
         {this.state.messages.map( (message, index) =>
           <div className="row" key={index}>
-            <div className="col-md-12">{this.props.activeRoomId === message.roomId ? message.username : null}</div>
-            <div className="col-md-6">{this.props.activeRoomId === message.roomId ? message.content : null}</div>
-            <div className="col-md-6">{this.props.activeRoomId === message.roomId ? message.sentAt : null}</div>
+            <div className="col-md-12 text-left mt-2">{this.props.activeRoomId === message.roomId ? message.username + ":" : null}</div>
+            <div className="col-md-6 text-left">{this.props.activeRoomId === message.roomId ? message.content : null}</div>
+            <div className="col-md-6 text-right">{this.props.activeRoomId === message.roomId ? message.sentAt : null}</div>
           </div>
         )}
         <form onSubmit={this.sendMessage}>
