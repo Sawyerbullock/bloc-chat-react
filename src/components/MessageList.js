@@ -6,7 +6,11 @@ class MessageList extends Component {
 
     this.state = {
       messages: [],
+      inputValue: '',
     }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
 
     this.messagesRef = this.props.firebase.database().ref('messages');
   }
@@ -17,6 +21,27 @@ class MessageList extends Component {
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) });
     })
+  }
+
+  handleChange(event) {
+    this.setState({
+      inputValue: event.target.value
+    });
+  }
+
+  sendMessage() {
+    var today = new Date();
+    var hour = today.getHours();
+    hour = (hour > 12)? hour - 12 : hour;
+    var minutes = today.getMinutes();
+    minutes = "0000" + minutes;
+    this.messagesRef.push({
+      username: this.props.user,
+      content: this.state.inputValue,
+      roomId: this.props.activeRoomId,
+      sentAt: hour + ":" + minutes.slice(-2),
+    })
+    this.setState({ inputValue: '', })
   }
 
   render() {
@@ -30,6 +55,12 @@ class MessageList extends Component {
             <div className="col-md-6">{this.props.activeRoomId === message.roomId ? message.sentAt : null}</div>
           </div>
         )}
+        <form onSubmit={this.sendMessage}>
+          <div className="form-row fixed-bottom mb-2 ml-auto w-75 ">
+            <input type="text" value={this.state.inputValue} onChange={this.handleChange} className="form-control col-md-10" placeholder="Type message here..."></input>
+            <input type="submit" value="submit" className="btn btn-primary ml-2"/>
+          </div>
+        </form>
       </section>
     );
   }

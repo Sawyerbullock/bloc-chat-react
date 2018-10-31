@@ -12,8 +12,7 @@ var config = {
     projectId: "bloc-chat-react-ec7ef",
     storageBucket: "bloc-chat-react-ec7ef.appspot.com",
     messagingSenderId: "903356052615",
-    user: "",
-  };
+    };
   firebase.initializeApp(config);
 
 class App extends Component {
@@ -23,13 +22,14 @@ class App extends Component {
     this.state = {
       activeRoomName: '',
       activeRoomId: '',
+      user: '',
     }
   }
 
   setUser(user) {
     this.setState({
       user: user,
-    })
+    });
   }
 
   changeRoom(room) {
@@ -44,7 +44,7 @@ class App extends Component {
       <div className="App">
       <User firebase={firebase} setUser={(user) => this.setUser(user)} user={this.state.user} />
       <RoomList firebase={firebase} changeRoom={(room) => this.changeRoom(room)} />
-      <MessageList firebase={firebase} activeRoomName={this.state.activeRoomName} activeRoomId={this.state.activeRoomId} />
+      <MessageList firebase={firebase} user={this.state.user.displayName} activeRoomName={this.state.activeRoomName} activeRoomId={this.state.activeRoomId} />
       </div>
     );
   }
