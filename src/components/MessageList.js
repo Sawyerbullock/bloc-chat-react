@@ -36,7 +36,7 @@ class MessageList extends Component {
     var minutes = today.getMinutes();
     minutes = "0000" + minutes;
     this.messagesRef.push({
-      username: this.props.user,
+      username: this.props.user.displayName,
       content: this.state.inputValue,
       roomId: this.props.activeRoomId,
       sentAt: hour + ":" + minutes.slice(-2),
