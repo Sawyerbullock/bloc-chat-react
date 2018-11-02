@@ -11,6 +11,7 @@ class MessageList extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.deleteMessage = this.deleteMessage.bind(this);
 
     this.messagesRef = this.props.firebase.database().ref('messages');
   }
@@ -21,6 +22,13 @@ class MessageList extends Component {
       message.key = snapshot.key;
       this.setState({ messages: this.state.messages.concat( message ) });
     })
+    this.messagesRef.on('child_removed', snapshot => {
+      const deletedMessage = snapshot.val();
+      deletedMessage.key = snapshot.key;
+      this.setState({
+        messages: this.state.messages.filter(message => message.key !== deletedMessage.key)
+      })
+    })
   }
 
   handleChange(event) {
@@ -30,7 +38,10 @@ class MessageList extends Component {
   }
 
   deleteMessage(message) {
-
+    this.messagesRef.child(message.key).remove()
+      .then(() => {
+        alert(`Message deleted`)
+      })
   }
 
   sendMessage() {
@@ -53,16 +64,26 @@ class MessageList extends Component {
     }
   }
 
+  showMessages(message, index) {
+    if (this.props.activeRoomId === message.roomId) {
+      return (
+        <div className="row" key={index}>
+          <div className="col-md-12 text-left mt-2"><span className="ion-md-trash mr-1" onClick={() => this.deleteMessage(message)} ></span>{message.username + ":"}</div>
+          <div className="col-md-6 text-left">{message.content}</div>
+          <div className="col-md-6 text-right">{message.sentAt}</div>
+        </div>
+      );
+    } else {
+      return(null);
+    }
+  }
+
   render() {
     return (
       <section className="message-list">
         <h3>{this.props.activeRoomName}</h3>
         {this.state.messages.map( (message, index) =>
-          <div className="row" key={index}>
-            <div className="col-md-12 text-left mt-2">{this.props.activeRoomId === message.roomId ? message.username + ":" : false}</div>
-            <div className="col-md-6 text-left">{this.props.activeRoomId === message.roomId ? message.content : null}</div>
-            <div className="col-md-6 text-right">{this.props.activeRoomId === message.roomId ? message.sentAt : null}</div>
-          </div>
+          this.showMessages(message, index)
         )}
         <form onSubmit={this.sendMessage}>
           <div className="form-row fixed-bottom mb-2 ml-auto w-75 ">
