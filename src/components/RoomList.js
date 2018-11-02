@@ -45,7 +45,10 @@ class RoomList extends Component {
   }
 
   deleteRoom(room) {
-    this.roomsRef.child(room.key).remove();
+    this.roomsRef.child(room.key).remove()
+      .then(() => {
+        alert(`Room "${room.name}" has been deleted`);
+      })
   }
 
   render() {

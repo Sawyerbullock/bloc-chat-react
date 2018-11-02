@@ -29,6 +29,10 @@ class MessageList extends Component {
     });
   }
 
+  deleteMessage(message) {
+
+  }
+
   sendMessage() {
     var today = new Date();
     var hour = today.getHours();
@@ -36,14 +40,17 @@ class MessageList extends Component {
     hour = (hour > 12)? hour - 12 : hour;
     var minutes = today.getMinutes();
     minutes = "0000" + minutes;
-    var time =
-    this.messagesRef.push({
-      username: this.props.user.displayName,
-      content: this.state.inputValue,
-      roomId: this.props.activeRoomId,
-      sentAt: hour + ":" + minutes.slice(-2) + abbreviation
-    })
-    this.setState({ inputValue: '', })
+    if (this.state.inputValue !== ''){
+      this.messagesRef.push({
+        username: this.props.user? this.props.user.displayName : "Guest",
+        content: this.state.inputValue,
+        roomId: this.props.activeRoomId,
+        sentAt: hour + ":" + minutes.slice(-2) + abbreviation
+      });
+      this.setState({ inputValue: '', });
+    } else {
+      alert(`Message is blank`);
+    }
   }
 
   render() {
@@ -52,7 +59,7 @@ class MessageList extends Component {
         <h3>{this.props.activeRoomName}</h3>
         {this.state.messages.map( (message, index) =>
           <div className="row" key={index}>
-            <div className="col-md-12 text-left mt-2">{this.props.activeRoomId === message.roomId ? message.username + ":" : null}</div>
+            <div className="col-md-12 text-left mt-2">{this.props.activeRoomId === message.roomId ? message.username + ":" : false}</div>
             <div className="col-md-6 text-left">{this.props.activeRoomId === message.roomId ? message.content : null}</div>
             <div className="col-md-6 text-right">{this.props.activeRoomId === message.roomId ? message.sentAt : null}</div>
           </div>
