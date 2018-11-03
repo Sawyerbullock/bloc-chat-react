@@ -37,11 +37,15 @@ class RoomList extends Component {
   }
 
   createRoom(event) {
-    this.roomsRef.push({
-      name: this.state.inputValue
-    });
-    event.preventDefault();
-    this.setState({ inputValue: '' })
+    if (this.state.inputValue !== ''){
+      this.roomsRef.push({
+        name: this.state.inputValue
+      });
+      event.preventDefault();
+      this.setState({ inputValue: '' })
+    } else {
+      alert(`Room must have a name.`)
+    }
   }
 
   deleteRoom(room) {

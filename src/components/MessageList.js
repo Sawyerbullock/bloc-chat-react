@@ -68,8 +68,8 @@ class MessageList extends Component {
     if (this.props.activeRoomId === message.roomId) {
       return (
         <div className="row" key={index}>
-          <div className="col-md-12 text-left mt-2"><span className="ion-md-trash mr-1" onClick={() => this.deleteMessage(message)} ></span>{message.username + ":"}</div>
-          <div className="col-md-6 text-left">{message.content}</div>
+          <div className="col-md-12 text-left mt-2">{message.username + ":"}</div>
+          <div className="col-md-6 text-left">{message.content}<span className="ion-md-trash ml-3" onClick={() => this.deleteMessage(message)} ></span></div>
           <div className="col-md-6 text-right">{message.sentAt}</div>
         </div>
       );
@@ -80,7 +80,7 @@ class MessageList extends Component {
 
   render() {
     return (
-      <section className="message-list">
+      <section className="message-list container">
         <h3>{this.props.activeRoomName}</h3>
         {this.state.messages.map( (message, index) =>
           this.showMessages(message, index)
