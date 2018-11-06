@@ -44,7 +44,7 @@ class MessageList extends Component {
       })
   }
 
-  sendMessage() {
+  sendMessage(event) {
     var today = new Date();
     var hour = today.getHours();
     var abbreviation = (hour > 12)? " pm" : " am";
@@ -58,6 +58,7 @@ class MessageList extends Component {
         roomId: this.props.activeRoomId,
         sentAt: hour + ":" + minutes.slice(-2) + abbreviation
       });
+      event.preventDefault();
       this.setState({ inputValue: '', });
     } else {
       alert(`Message is blank`);
